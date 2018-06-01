@@ -47,4 +47,17 @@ public class MainUtils {
         }
         return newMatrix;
     }
+
+    public static int[][] convertToArray(String graphMatrixString) {
+        String[] array = graphMatrixString.split("\n");
+        System.out.println(array.length);
+        int[][] matrix = new int[array.length][array.length];
+        for (int i = 0; i < array.length; i++) {
+            String[] chileArray = array[i].split(" ");
+            for (int j = 0; j < chileArray.length; j++) {
+                matrix[i][j] = Integer.parseInt(chileArray[j]);
+            }
+        }
+        return matrix;
+    }
 }
