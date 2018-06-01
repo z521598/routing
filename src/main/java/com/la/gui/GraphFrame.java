@@ -37,6 +37,7 @@ public class GraphFrame extends JFrame {
                 }
             }
         });
+        setLocationRelativeTo(null);
         pack();
         setTitle("请输入道路");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

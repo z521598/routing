@@ -48,6 +48,7 @@ public class MainFrame extends JFrame {
         consoleTextArea.setEditable(false);
         add(new JScrollPane(consoleTextArea), BorderLayout.SOUTH);
 
+        setLocationRelativeTo(null);
         pack();
         setTitle("交通疏散规划");
         setVisible(true);
