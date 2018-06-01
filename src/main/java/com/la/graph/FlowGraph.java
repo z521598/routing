@@ -1,11 +1,10 @@
-package com.la.graph.arrayShow;
+package com.la.graph;
 
+import com.la.path.PathBean;
+import com.la.util.MainUtils;
 import com.la.util.PrintUtils;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.*;
 
 /**
  * Created by Administrator on 2018/5/31.
@@ -14,6 +13,8 @@ public class FlowGraph {
     private static final int MAX = Integer.MAX_VALUE;
     // 表示点与点之间的关系和点的容量
     private int[][] capacityMatrix;
+
+    private int[][] srcCapacityMatrix;
     // 点的数目
     private int number;
     // 源点
@@ -27,6 +28,7 @@ public class FlowGraph {
     public FlowGraph(int[][] capacityMatrix) {
         this.capacityMatrix = capacityMatrix;
         this.number = capacityMatrix.length;
+        this.srcCapacityMatrix = MainUtils.deepCopy(capacityMatrix);
     }
 
     /**
@@ -34,7 +36,8 @@ public class FlowGraph {
      * @param t 汇点
      * @return
      */
-    public int maxFlow(int s, int t) {
+    public List<PathBean> maxFlow(int s, int t) {
+        List<PathBean> pathBeanList = new ArrayList<>();
         this.s = s;
         this.t = t;
         int maxFlow = 0;
@@ -45,20 +48,18 @@ public class FlowGraph {
             // 处理容量残余图
             int k = t;          // 利用前驱寻找路径
 
-            Stack<Integer> printStack = new Stack<>();
+            List<Integer> path = new LinkedList<>();
             while (k != s) {
-                printStack.push(k);
-                int last = path[k];
+                path.add(k);
+                int last = this.path[k];
                 capacityMatrix[last][k] -= incrementFlow;  // 改变正向边的容量
                 capacityMatrix[k][last] += incrementFlow;  // 改变反向边的容量
                 k = last;
             }
-            printStack.push(s);
-            PrintUtils.printPath(printStack);
-            PrintUtils.print("\t此路线可疏通" + incrementFlow + "辆车");
-            PrintUtils.println();
+            path.add(s);
+            pathBeanList.add(new PathBean(path, incrementFlow));
         }
-        return maxFlow;
+        return pathBeanList;
     }
 
     // 广度优先遍历，填充增广路，返回最大流量 TODO 获取流量最大的增广路
@@ -119,7 +120,17 @@ public class FlowGraph {
         return capacityMatrix;
     }
 
+    public int[][] getSrcCapacityMatrix() {
+        return srcCapacityMatrix;
+    }
+
     public int getNumber() {
         return number;
     }
+
+    /**
+     * @param pathBeanList 路线
+     * @param step         第几步
+     */
+
 }

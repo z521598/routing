@@ -1,14 +1,11 @@
 package com.la;
 
-import com.la.design.ff.DFlowEdge;
-import com.la.design.ff.DFlowNetwork;
-import com.la.design.ff.DFordFulkerson;
-import com.la.graph.arrayShow.FlowGraph;
+import com.la.graph.FlowGraph;
+import com.la.path.PathBean;
+import com.la.util.MainUtils;
 import com.la.util.PrintUtils;
-import com.la.util.StdRandom;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by Administrator on 2018/5/30.
@@ -69,15 +66,41 @@ public class Main {
         }
         PrintUtils.println("开始计算疏散方案，请稍后");
         PrintUtils.println("========================");
-        PrintUtils.println("可行通的疏通路线如下");
-        int currentFlow = flowGraph.maxFlow(s, t);
-        int step = sumFlow / currentFlow;
-        int remain = sumFlow % currentFlow;
-        if (remain != 0) {
-            step += 1;
-        }
-        if (step != 1) {
-            PrintUtils.println("分" + step + "批进行疏通，每次可疏通" + currentFlow + "辆车");
+        List<List<PathBean>> pathss = new LinkedList<>();
+        int remain = sumFlow;
+        int step = 0;
+        int[][] srcCapacityMatrix = flowGraph.getSrcCapacityMatrix();
+        while (remain >= 0) {
+            if (step != 0) {
+                PrintUtils.print("等待" + step + "单位时间后，");
+            } else {
+                PrintUtils.print("当前");
+            }
+            // 当前路线
+            List<PathBean> pathBeanList = flowGraph.maxFlow(s, t);
+            if (pathBeanList.size() != 0) {
+                PrintUtils.println("可行通的疏通路线如下");
+            } else {
+                PrintUtils.println("无可通行路线");
+            }
+            pathss.add(pathBeanList);
+            // 打印路线
+            PrintUtils.printPaths(pathBeanList);
+            int currentFlow = MainUtils.getIncrementFlow(pathBeanList);
+            int[][] nextCapacityMatrix = srcCapacityMatrix;
+            for (int i = 0; i < pathss.size(); i++) {
+                nextCapacityMatrix = MainUtils.changeByPath(nextCapacityMatrix, pathss.get(i), step - i);
+            }
+            flowGraph = new FlowGraph(nextCapacityMatrix);
+//            PrintUtils.printArray(flowGraph.getCapacityMatrix());
+            remain -= currentFlow;
+            if (remain > 0) {
+                PrintUtils.println("此时待规划疏通路线的车辆数目为" + remain);
+            } else {
+                PrintUtils.println("疏通路线规划完毕");
+            }
+            PrintUtils.println();
+            step++;
         }
 
 

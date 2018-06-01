@@ -1,4 +1,4 @@
-package com.la.graph.objShow;
+package com.la.design.graph.objShow;
 
 import com.la.util.StdRandom;
 
