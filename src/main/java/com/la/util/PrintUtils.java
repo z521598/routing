@@ -56,12 +56,12 @@ public class PrintUtils {
         for (int i = path.size() - 1; i >= 0; i--) {
             print("“点" + path.get(i) + "”" + "-->");
         }
-        print("“通过”");
+        println("“通过”");
     }
 
     public static void printPaths(List<PathBean> pathBeanList) {
         for (int i = 0; i < pathBeanList.size(); i++) {
-            println(pathBeanList.get(i).getFlow() + "辆车疏通的路线：");
+            print(pathBeanList.get(i).getFlow() + "辆车疏通的路线：");
             printPath(pathBeanList.get(i).getPath());
         }
 
