@@ -1,5 +1,6 @@
 package com.la.util;
 
+import com.la.gui.MainFrame;
 import com.la.path.PathBean;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class PrintUtils {
             System.out.println();
         }
     }
+
     public static String toString(int[][] array) {
         if (array == null) {
             return "";
@@ -95,12 +97,17 @@ public class PrintUtils {
             printPath(pathBeanList.get(i).getPath());
         }
     }
-    public static String toString(List<PathBean> pathBeanList){
-       StringBuilder sb = new StringBuilder();
+
+    public static String toString(List<PathBean> pathBeanList) {
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < pathBeanList.size(); i++) {
             sb.append(pathBeanList.get(i).getFlow() + "辆车疏通的路线：");
             PathBean pathBean = pathBeanList.get(i);
             for (int j = pathBean.getPath().size() - 1; j >= 0; j--) {
+                // 不打印超级汇点问题
+                if (pathBean.getPath().get(j) == MainFrame.defaultMatrix.length) {
+                    continue;
+                }
                 sb.append("“点" + pathBean.getPath().get(j) + "”" + "-->");
             }
             sb.append("“通过”").append("\n");

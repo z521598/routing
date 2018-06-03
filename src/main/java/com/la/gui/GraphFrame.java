@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 /**
  * Created by Administrator on 2018/6/2.
  */
+@Deprecated
 public class GraphFrame extends JFrame {
     private JLabel tipLabel = new JLabel("使用二维数组代表道路，数字为道路的容量，不通路则为0");
     private String defaultMatrix = "0 1 2 3\n" +

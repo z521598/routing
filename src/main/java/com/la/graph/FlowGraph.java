@@ -2,7 +2,6 @@ package com.la.graph;
 
 import com.la.path.PathBean;
 import com.la.util.MainUtils;
-import com.la.util.PrintUtils;
 
 import java.util.*;
 
@@ -26,7 +25,7 @@ public class FlowGraph {
 
 
     public FlowGraph(int[][] capacityMatrix) {
-        this.capacityMatrix = capacityMatrix;
+        this.capacityMatrix = MainUtils.deepCopy(capacityMatrix);
         this.number = capacityMatrix.length;
         this.srcCapacityMatrix = MainUtils.deepCopy(capacityMatrix);
     }
@@ -43,7 +42,7 @@ public class FlowGraph {
         int maxFlow = 0;
         // 获取流量
         int incrementFlow;
-        while ((incrementFlow = dfs()) != -1) {
+        while ((incrementFlow = bfs()) != -1) {
             maxFlow += incrementFlow;
             // 处理容量残余图
             int k = t;          // 利用前驱寻找路径
@@ -62,8 +61,8 @@ public class FlowGraph {
         return pathBeanList;
     }
 
-    // 广度优先遍历，填充增广路，返回最大流量 TODO 获取流量最大的增广路
-    private int dfs() {
+    // 广度优先遍历，填充增广路，返回最大流量
+    private int bfs() {
         // 增广路径
         path = new int[number];
         for (int i = 0; i < path.length; i++) {
