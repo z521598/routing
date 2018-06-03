@@ -126,7 +126,7 @@ public class RunListener implements ActionListener {
                     }
                     runTimeCon.append(methodName).append("规划时间为").append(runTime).append("。");
                 }
-                runTimeCon.append("\n").append(lessTimeMethod).append("规划时间最少").append("，能够最快得到解决拥堵的方案");
+                runTimeCon.append("\n").append(runTimeLessMethod).append("规划时间最少").append("，能够最快得到解决拥堵的方案");
 
 
                 // 结论
