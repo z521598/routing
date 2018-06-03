@@ -1,8 +1,7 @@
 package com.la.gui;
 
-import com.la.Main;
 import com.la.graph.FlowGraph;
-import com.la.path.PathBean;
+import com.la.thread.Task;
 import com.la.util.MainUtils;
 import com.la.util.PrintUtils;
 
@@ -11,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Administrator on 2018/6/1.
@@ -56,42 +54,23 @@ public class RunListener implements ActionListener {
             }
             int sumFlow = Integer.parseInt(mainFrame.getCarTextField().getText());
             PrintUtils.printArray(capacityMatrix);
-            // 得到容量图
-            FlowGraph flowGraph = new FlowGraph(capacityMatrix);
+            Task bfsTask = new Task().setS(s).setT(t)
+                    .setConsoleTextArea(mainFrame.getMethod1ConsoleTextArea())
+                    .setMethodTimeLabel(mainFrame.getMethod1TimeLabel())
+                    .setSumFlow(sumFlow).setFlowGraph(new FlowGraph(capacityMatrix))
+                    .setMethod("bfs");
 
-            // 多算法，同时跑
-            // TODO: 2018/6/3
-            JLabel method1Label = mainFrame.getMethod1TimeLabel();
-            JTextArea consoleTextArea = mainFrame.getMethod1ConsoleTextArea();
-            long start = System.currentTimeMillis();
-            List<PathBean> pathBeanList = flowGraph.maxFlow(s, t);
-            long end = System.currentTimeMillis();
-            long time = end - start;
+            Task dfsTask = new Task().setS(s).setT(t)
+                    .setConsoleTextArea(mainFrame.getMethod2ConsoleTextArea())
+                    .setMethodTimeLabel(mainFrame.getMethod2TimeLabel())
+                    .setSumFlow(sumFlow).setFlowGraph(new FlowGraph(capacityMatrix))
+                    .setMethod("dfs");
 
-            String res = PrintUtils.toString(pathBeanList);
-            int currentFlow = MainUtils.getIncrementFlow(pathBeanList);
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    method1Label.setForeground(Color.red);
-                    method1Label.setText(method1Label.getText() + time + "毫秒");
-                    consoleTextArea.setText(res);
-                }
-            });
-            int step = sumFlow / currentFlow;
-            int remain = sumFlow % currentFlow;
-            if (remain != 0) {
-                step += 1;
-            }
-            if (step != 1) {
-                final int finalStep = step;
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        consoleTextArea.setText(consoleTextArea.getText() + "\n" + "分" + finalStep + "批进行疏通，每次可疏通" + currentFlow + "辆车"
-                        );
-                    }
-                });
+            bfsTask.call();
+            try {
+                dfsTask.call();
+            }catch (Exception exx){
+                exx.printStackTrace();
             }
         } catch (Exception ex) {
             ex.printStackTrace();

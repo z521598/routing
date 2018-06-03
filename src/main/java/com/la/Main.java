@@ -77,7 +77,7 @@ public class Main {
                 PrintUtils.print("当前");
             }
             // 当前路线
-            List<PathBean> pathBeanList = flowGraph.maxFlow(s, t);
+            List<PathBean> pathBeanList = flowGraph.maxFlowByBfs(s, t);
             if (pathBeanList.size() != 0) {
                 PrintUtils.println("可行通的疏通路线如下");
             } else {
@@ -86,7 +86,7 @@ public class Main {
             pathss.add(pathBeanList);
             // 打印路线
             PrintUtils.printPaths(pathBeanList);
-            int currentFlow = MainUtils.getIncrementFlow(pathBeanList);
+            int currentFlow = MainUtils.getMaxFlow(pathBeanList);
             int[][] nextCapacityMatrix = srcCapacityMatrix;
             for (int i = 0; i < pathss.size(); i++) {
                 nextCapacityMatrix = MainUtils.changeByPath(nextCapacityMatrix, pathss.get(i), step - i);
@@ -106,9 +106,9 @@ public class Main {
 
         // ====================================================================
 //        PrintUtils.println("可行通的疏通路线如下");
-//        List<PathBean> pathBeanList  = flowGraph.maxFlow(s, t);
+//        List<PathBean> pathBeanList  = flowGraph.maxFlowByBfs(s, t);
 //        PrintUtils.printPaths(pathBeanList);
-//        int currentFlow = MainUtils.getIncrementFlow(pathBeanList);
+//        int currentFlow = MainUtils.getMaxFlow(pathBeanList);
 //
 //        int step = sumFlow / currentFlow;
 //        int remain = sumFlow % currentFlow;

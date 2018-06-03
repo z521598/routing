@@ -31,7 +31,7 @@ public class GraphFrame extends JFrame {
                     String graphMatrixString = graphTextArea.getText();
                     int[][] capacityMatrix = MainUtils.convertToArray(graphMatrixString);
                     graphFrame.dispose();
-                    new MainFrame(capacityMatrix);
+                    new MainFrame();
                 } catch (Exception ex) {
                     Toolkit.getDefaultToolkit().beep();
                     JOptionPane.showMessageDialog(null, "请检查数据格式", "解析失败", JOptionPane.ERROR_MESSAGE);

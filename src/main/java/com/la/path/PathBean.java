@@ -30,4 +30,13 @@ public class PathBean {
     public void setFlow(Integer flow) {
         this.flow = flow;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("PathBean{");
+        sb.append("path=").append(path);
+        sb.append(", flow=").append(flow);
+        sb.append('}');
+        return sb.toString();
+    }
 }

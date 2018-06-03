@@ -41,7 +41,7 @@ public class MainFrame extends JFrame {
     private JTextArea method2ConsoleTextArea = new JTextArea(10, 40);
 
 
-    public MainFrame(int[][] capacityMatrix) throws HeadlessException {
+    public MainFrame() throws HeadlessException {
 
         topPanel.add(titleLabel);
         imageLabel.setIcon(new ImageIcon(getClass().getClassLoader().getResource("graph.png")));
@@ -138,7 +138,7 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        MainFrame mainFrame = new MainFrame(defaultMatrix);
+        MainFrame mainFrame = new MainFrame();
     }
 
 

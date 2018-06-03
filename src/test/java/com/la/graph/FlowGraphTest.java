@@ -29,7 +29,7 @@ public class FlowGraphTest {
     @Test
     public void testGetSrcCapacityMatrix() throws Exception {
         PrintUtils.printArray(capacity);
-        List<PathBean> pathBeanList = flowGraph.maxFlow(0, 3);
+        List<PathBean> pathBeanList = flowGraph.maxFlowByBfs(0, 3);
         System.out.println("===========================");
         PrintUtils.printArray(flowGraph.getSrcCapacityMatrix());
 
