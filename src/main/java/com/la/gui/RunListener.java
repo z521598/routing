@@ -105,7 +105,7 @@ public class RunListener implements ActionListener {
                     } else if (lessTime == sumTime) {
                         lessTimeMethod += ("," + methodName);
                     }
-                    sumTimeCon.append(lessTimeMethod).append("行驶时间总量为").append(lessTime).append("。");
+                    sumTimeCon.append(lessTimeMethod).append("行驶时间总量为").append(sumTime).append("。");
                 }
                 sumTimeCon.append("\n").append(lessTimeMethod).append("行驶时间总量最少").append("，司机走的路最少");
 
@@ -124,7 +124,7 @@ public class RunListener implements ActionListener {
                     } else if (runLessTime == runTime) {
                         runTimeLessMethod += ("," + methodName);
                     }
-                    runTimeCon.append(runTimeLessMethod).append("规划时间为").append(runTime).append("。");
+                    runTimeCon.append(methodName).append("规划时间为").append(runTime).append("。");
                 }
                 runTimeCon.append("\n").append(lessTimeMethod).append("规划时间最少").append("，能够最快得到解决拥堵的方案");
 
