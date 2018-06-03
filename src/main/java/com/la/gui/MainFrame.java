@@ -31,15 +31,19 @@ public class MainFrame extends JFrame {
     private JPanel method1LabelPanel = new JPanel();
     private JLabel method1Name = new JLabel("基于BFS遍历增广路径的FF算法");
     private JLabel method1TimeLabel = new JLabel("耗时");
-    private JTextArea method1ConsoleTextArea = new JTextArea(10, 40);
+    private JTextArea method1ConsoleTextArea = new JTextArea(10, 60);
 
     // 算法2
     private JPanel method2Panel = new JPanel();
     private JPanel method2LabelPanel = new JPanel();
     private JLabel method2Name = new JLabel("基于DFS遍历增广路径的FF算法");
     private JLabel method2TimeLabel = new JLabel("耗时");
-    private JTextArea method2ConsoleTextArea = new JTextArea(10, 40);
+    private JTextArea method2ConsoleTextArea = new JTextArea(10, 60);
 
+    // 结论
+    private JPanel conclusionPanel = new JPanel();
+    private JLabel conclusionLabel = new JLabel("结论：");
+    private JTextArea conclusionTextArea = new JTextArea(7, 5);
 
     public MainFrame() throws HeadlessException {
 
@@ -61,19 +65,25 @@ public class MainFrame extends JFrame {
         centerPanel.add(runButton, BorderLayout.SOUTH);
         add(centerPanel, BorderLayout.CENTER);
 
+        bottomPanel.setLayout(new BorderLayout());
         method1Panel.setLayout(new BorderLayout());
         method1LabelPanel.add(method1Name, BorderLayout.CENTER);
         method1LabelPanel.add(method1TimeLabel, BorderLayout.EAST);
         method1Panel.add(method1LabelPanel, BorderLayout.NORTH);
         method1Panel.add(new JScrollPane(method1ConsoleTextArea), BorderLayout.CENTER);
-        bottomPanel.add(method1Panel, BorderLayout.EAST);
+        bottomPanel.add(method1Panel, BorderLayout.WEST);
 
         method2Panel.setLayout(new BorderLayout());
         method2LabelPanel.add(method2Name, BorderLayout.CENTER);
         method2LabelPanel.add(method2TimeLabel, BorderLayout.EAST);
         method2Panel.add(method2LabelPanel, BorderLayout.NORTH);
         method2Panel.add(new JScrollPane(method2ConsoleTextArea), BorderLayout.CENTER);
-        bottomPanel.add(method2Panel, BorderLayout.EAST);
+        bottomPanel.add(method2Panel, BorderLayout.CENTER);
+
+        conclusionPanel.setLayout(new BorderLayout());
+        conclusionPanel.add(conclusionLabel, BorderLayout.NORTH);
+        conclusionPanel.add(new JScrollPane(conclusionTextArea), BorderLayout.SOUTH);
+        bottomPanel.add(conclusionPanel, BorderLayout.SOUTH);
 
         add(bottomPanel, BorderLayout.SOUTH);
 
@@ -95,6 +105,10 @@ public class MainFrame extends JFrame {
 
     public JTextField getCarTextField() {
         return carTextField;
+    }
+
+    public JTextArea getConclusionTextArea() {
+        return conclusionTextArea;
     }
 
     public static int[][] defaultMatrix = new int[][]{

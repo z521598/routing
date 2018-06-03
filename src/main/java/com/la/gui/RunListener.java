@@ -10,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/6/1.
@@ -58,18 +60,79 @@ public class RunListener implements ActionListener {
                     .setConsoleTextArea(mainFrame.getMethod1ConsoleTextArea())
                     .setMethodTimeLabel(mainFrame.getMethod1TimeLabel())
                     .setSumFlow(sumFlow).setFlowGraph(new FlowGraph(capacityMatrix))
-                    .setMethod("bfs");
+                    .setMethod("bfs").setMethodName("基于BFS遍历增广路径的FF算法");
 
             Task dfsTask = new Task().setS(s).setT(t)
                     .setConsoleTextArea(mainFrame.getMethod2ConsoleTextArea())
                     .setMethodTimeLabel(mainFrame.getMethod2TimeLabel())
                     .setSumFlow(sumFlow).setFlowGraph(new FlowGraph(capacityMatrix))
-                    .setMethod("dfs");
+                    .setMethod("dfs").setMethodName("基于DFS遍历增广路径的FF算法");
 
-            bfsTask.call();
+
             try {
-                dfsTask.call();
-            }catch (Exception exx){
+                java.util.List<Map<String, Object>> resMapList = new LinkedList<>();
+                resMapList.add(bfsTask.call());
+                resMapList.add(dfsTask.call());
+                // 比较行驶路径
+                StringBuilder pathSizeCon = new StringBuilder();
+                String lessPathSizeMethod = null;
+                int lessPathSize = Integer.MAX_VALUE;
+                for (int i = 0; i < resMapList.size(); i++) {
+                    Map<String, Object> map = resMapList.get(i);
+                    Integer pathSize = (Integer) map.get(Task.PATH_SIZE);
+                    String methodName = (String) map.get(Task.METHOD_NAME);
+                    if (pathSize < lessPathSize) {
+                        lessPathSize = pathSize;
+                        lessPathSizeMethod = methodName;
+                    } else if (pathSize == lessPathSize) {
+                        lessPathSizeMethod += ("," + methodName);
+                    }
+                    pathSizeCon.append(methodName).append("疏通路径条数为").append(pathSize).append("。");
+                }
+                pathSizeCon.append("\n").append(lessPathSizeMethod).append("路径条数最少").append("，最利于指挥疏散。");
+
+                // 比较行驶时间
+                StringBuilder sumTimeCon = new StringBuilder();
+                String lessTimeMethod = null;
+                int lessTime = Integer.MAX_VALUE;
+                for (int i = 0; i < resMapList.size(); i++) {
+                    Map<String, Object> map = resMapList.get(i);
+                    Integer sumTime = (Integer) map.get(Task.SUM_TIME);
+                    String methodName = (String) map.get(Task.METHOD_NAME);
+                    if (lessTime > sumTime) {
+                        lessTime = sumTime;
+                        lessTimeMethod = methodName;
+                    } else if (lessTime == sumTime) {
+                        lessTimeMethod += ("," + methodName);
+                    }
+                    sumTimeCon.append(lessTimeMethod).append("行驶时间总量为").append(lessTime).append("。");
+                }
+                sumTimeCon.append("\n").append(lessTimeMethod).append("行驶时间总量最少").append("，司机走的路最少");
+
+
+                // 比较行驶时间
+                StringBuilder runTimeCon = new StringBuilder();
+                String runTimeLessMethod = null;
+                long runLessTime = Long.MAX_VALUE;
+                for (int i = 0; i < resMapList.size(); i++) {
+                    Map<String, Object> map = resMapList.get(i);
+                    long runTime = (long) map.get(Task.RUN_TIME);
+                    String methodName = (String) map.get(Task.METHOD_NAME);
+                    if (runLessTime > runTime) {
+                        runLessTime = runTime;
+                        runTimeLessMethod = methodName;
+                    } else if (runLessTime == runTime) {
+                        runTimeLessMethod += ("," + methodName);
+                    }
+                    runTimeCon.append(runTimeLessMethod).append("规划时间为").append(runTime).append("。");
+                }
+                runTimeCon.append("\n").append(lessTimeMethod).append("规划时间最少").append("，能够最快得到解决拥堵的方案");
+
+
+                // 结论
+                mainFrame.getConclusionTextArea().setText(pathSizeCon.toString() + "\n" + sumTimeCon.toString() + "\n" + runTimeCon.toString());
+
+            } catch (Exception exx) {
                 exx.printStackTrace();
             }
         } catch (Exception ex) {

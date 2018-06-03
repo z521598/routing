@@ -10,6 +10,8 @@ import java.util.*;
  * Created by Administrator on 2018/5/31.
  */
 public class FlowGraph {
+
+
     private static final int MAX = Integer.MAX_VALUE;
     // 表示点与点之间的关系和点的容量
     private int[][] capacityMatrix;

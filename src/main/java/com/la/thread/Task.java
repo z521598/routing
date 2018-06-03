@@ -9,13 +9,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
  * Created by Administrator on 2018/6/3.
  */
-public class Task implements Callable<List<PathBean>> {
+public class Task implements Callable<Map<String, Object>> {
+    private String methodName;
+    public final static String METHOD_NAME = "methodName";
+    public final static String RUN_TIME = "runTime";
+    public final static String SUM_TIME = "sumTime";
+    public final static String PATH_SIZE = "pathSize";
     private JLabel methodTimeLabel;
     private JTextArea consoleTextArea;
     private FlowGraph flowGraph;
@@ -23,6 +30,15 @@ public class Task implements Callable<List<PathBean>> {
     private int t;
     private int sumFlow;
     private String method;
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public Task setMethodName(String methodName) {
+        this.methodName = methodName;
+        return this;
+    }
 
     public JLabel getMethodTimeLabel() {
         return methodTimeLabel;
@@ -87,21 +103,26 @@ public class Task implements Callable<List<PathBean>> {
         return this;
     }
 
+
     @Override
-    public List<PathBean> call() throws Exception {
+    public Map<String, Object> call() throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        map.put(Task.METHOD_NAME, methodName);
         List<PathBean> pathBeanList = null;
         try {
 
             long start = System.currentTimeMillis();
             Thread.sleep(1);
+            ;
             if ("bfs".equals(method)) {
                 pathBeanList = flowGraph.maxFlowByBfs(s, t);
             } else if ("dfs".equals(method)) {
                 pathBeanList = flowGraph.maxFlowByDfs(s, t);
             }
-
+            map.put(PATH_SIZE, pathBeanList.size());
             long end = System.currentTimeMillis();
             long runTime = end - start;
+            map.put(RUN_TIME, runTime);
             String res = PrintUtils.toString(pathBeanList);
             int currentFlow = MainUtils.getMaxFlow(pathBeanList);
             SwingUtilities.invokeLater(new Runnable() {
@@ -126,6 +147,7 @@ public class Task implements Callable<List<PathBean>> {
                     sumTime += discuss * time;
                 }
             }
+            map.put(SUM_TIME, sumTime);
             if (step != 1) {
                 final int finalStep = step;
                 final int finalSumTime = sumTime;
@@ -135,7 +157,7 @@ public class Task implements Callable<List<PathBean>> {
                         String txt = consoleTextArea.getText() + "\n" + "分" + finalStep + "批进行疏通，每次可疏通" + currentFlow + "辆车";
                         txt += ("\n车辆最大滞留时间为" + (new BigDecimal(discuss).setScale(2, RoundingMode.UP).doubleValue() - 1) + "个单位时间");
                         if (finalSumTime != 0) {
-                            txt += ("\n所有车辆行驶时间之和为" + finalSumTime+"个单位时间");
+                            txt += ("\n所有车辆行驶时间之和为" + finalSumTime + "个单位时间");
                         }
                         consoleTextArea.setText(txt);
                     }
@@ -145,6 +167,6 @@ public class Task implements Callable<List<PathBean>> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return pathBeanList;
+        return map;
     }
 }
