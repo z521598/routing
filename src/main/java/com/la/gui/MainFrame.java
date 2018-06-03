@@ -31,14 +31,22 @@ public class MainFrame extends JFrame {
     private JPanel method1LabelPanel = new JPanel();
     private JLabel method1Name = new JLabel("基于BFS遍历增广路径的FF算法");
     private JLabel method1TimeLabel = new JLabel("耗时");
-    private JTextArea method1ConsoleTextArea = new JTextArea(10, 60);
+    private JTextArea method1ConsoleTextArea = new JTextArea(10, 40);
 
     // 算法2
     private JPanel method2Panel = new JPanel();
     private JPanel method2LabelPanel = new JPanel();
     private JLabel method2Name = new JLabel("基于DFS遍历增广路径的FF算法");
     private JLabel method2TimeLabel = new JLabel("耗时");
-    private JTextArea method2ConsoleTextArea = new JTextArea(10, 60);
+    private JTextArea method2ConsoleTextArea = new JTextArea(10, 40);
+
+    // 算法3
+    private JPanel method3Panel = new JPanel();
+    private JPanel method3LabelPanel = new JPanel();
+    private JLabel method3Name = new JLabel("基于Dijkstra算法遍历增大容量增广路径的FF算法");
+    private JLabel method3TimeLabel = new JLabel("耗时");
+    private JTextArea method3ConsoleTextArea = new JTextArea(10, 40);
+
 
     // 结论
     private JPanel conclusionPanel = new JPanel();
@@ -79,6 +87,13 @@ public class MainFrame extends JFrame {
         method2Panel.add(method2LabelPanel, BorderLayout.NORTH);
         method2Panel.add(new JScrollPane(method2ConsoleTextArea), BorderLayout.CENTER);
         bottomPanel.add(method2Panel, BorderLayout.CENTER);
+
+        method3Panel.setLayout(new BorderLayout());
+        method3LabelPanel.add(method3Name, BorderLayout.CENTER);
+        method3LabelPanel.add(method3TimeLabel, BorderLayout.EAST);
+        method3Panel.add(method3LabelPanel, BorderLayout.NORTH);
+        method3Panel.add(new JScrollPane(method3ConsoleTextArea), BorderLayout.CENTER);
+        bottomPanel.add(method3Panel, BorderLayout.EAST);
 
         conclusionPanel.setLayout(new BorderLayout());
         conclusionPanel.add(conclusionLabel, BorderLayout.NORTH);
@@ -149,6 +164,14 @@ public class MainFrame extends JFrame {
 
     public JTextArea getMethod2ConsoleTextArea() {
         return method2ConsoleTextArea;
+    }
+
+    public JLabel getMethod3TimeLabel() {
+        return method3TimeLabel;
+    }
+
+    public JTextArea getMethod3ConsoleTextArea() {
+        return method3ConsoleTextArea;
     }
 
     public static void main(String[] args) {

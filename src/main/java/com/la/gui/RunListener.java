@@ -67,12 +67,17 @@ public class RunListener implements ActionListener {
                     .setMethodTimeLabel(mainFrame.getMethod2TimeLabel())
                     .setSumFlow(sumFlow).setFlowGraph(new FlowGraph(capacityMatrix))
                     .setMethod("dfs").setMethodName("基于DFS遍历增广路径的FF算法");
-
+            Task dijTask = new Task().setS(s).setT(t)
+                    .setConsoleTextArea(mainFrame.getMethod3ConsoleTextArea())
+                    .setMethodTimeLabel(mainFrame.getMethod3TimeLabel())
+                    .setSumFlow(sumFlow).setFlowGraph(new FlowGraph(capacityMatrix))
+                    .setMethod("dij").setMethodName("基于Dijkstra算法遍历增大容量增广路径的FF算法");
 
             try {
                 java.util.List<Map<String, Object>> resMapList = new LinkedList<>();
                 resMapList.add(bfsTask.call());
                 resMapList.add(dfsTask.call());
+                resMapList.add(dijTask.call());
                 // 比较行驶路径
                 StringBuilder pathSizeCon = new StringBuilder();
                 String lessPathSizeMethod = null;

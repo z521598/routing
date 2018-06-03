@@ -25,7 +25,6 @@ public class FlowGraphTest {
     }
 
 
-
     @Test
     public void testGetSrcCapacityMatrix() throws Exception {
         PrintUtils.printArray(capacity);
@@ -33,5 +32,31 @@ public class FlowGraphTest {
         System.out.println("===========================");
         PrintUtils.printArray(flowGraph.getSrcCapacityMatrix());
 
+    }
+
+    @Test
+    public void testMaxFlowByFlowFirst() throws Exception {
+        int[][] cap = new int[][]{
+                new int[]{0, 100, 2, 0},
+                new int[]{0, 0, 0, 1},
+                new int[]{0, 0, 0, 2},
+                new int[]{0, 0, 0, 0}
+        };
+        List<PathBean> pathBeanList = new FlowGraph(cap).maxFlowByFlowFirst(0, 3);
+        PrintUtils.printPaths(pathBeanList);
+    }
+
+    @Test
+    public void testDijstraGetMaxFlow2() throws Exception {
+        int[][] cap = new int[][]{
+                new int[]{0, 100, 2, 0},
+                new int[]{0, 0, 0, 1},
+                new int[]{0, 0, 0, 2},
+                new int[]{0, 0, 0, 0}
+        };
+        FlowGraph flowGraph = new FlowGraph(cap);
+        int flow = flowGraph.dijstraGetMaxFlow(0, 3);
+        System.out.println();
+        System.out.println(flow);
     }
 }

@@ -17,6 +17,14 @@ public class PrintUtils {
             System.out.print(array[i] + " ");
         }
     }
+    public static void printArray(boolean[] array) {
+        if (array == null) {
+            return;
+        }
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i] + " ");
+        }
+    }
 
     public static void printArray(int[][] array) {
         if (array == null) {

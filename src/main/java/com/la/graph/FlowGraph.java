@@ -3,6 +3,7 @@ package com.la.graph;
 import com.la.gui.MainFrame;
 import com.la.path.PathBean;
 import com.la.util.MainUtils;
+import com.la.util.PrintUtils;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class FlowGraph {
     // 汇点
     private int t;
     // 临时变量，增广路径
-    private int[] path;
+    int[] path;
     // BFS临时变量
     private boolean isFind;
 
@@ -205,7 +206,7 @@ public class FlowGraph {
 
     // TODO: 2018/6/3
     // 最大容量优先遍历，填充增广路，返回最大流量
-    private List<PathBean> maxFlowByFlowFirst(int s, int t) {
+    public List<PathBean> maxFlowByFlowFirst(int s, int t) {
         List<PathBean> pathBeanList = new ArrayList<>();
         this.s = s;
         this.t = t;
@@ -223,7 +224,8 @@ public class FlowGraph {
 
         flow[s] = MAX;
         // 记录节点是否访问过
-        while ((incrementFlow = dijstraGetMaxFlow(flow, visited, s)) != -1) {
+        while ((incrementFlow = dijstraGetMaxFlow(s, t)) != -1) {
+            PrintUtils.printArray(path);
             maxFlow += incrementFlow;
             // 处理容量残余图
             int k = t;          // 利用前驱寻找路径
@@ -250,10 +252,47 @@ public class FlowGraph {
         return pathBeanList;
     }
 
-    // TODO: 2018/6/3
-    private int dijstraGetMaxFlow(int[] flow, boolean[] visited, int s) {
+    public int dijstraGetMaxFlow(int s, int t) {
+        // 路径
+        path = new int[number];
+        for (int i = 0; i < path.length; i++) {
+            path[i] = -1;
+        }
+        // 该节点是否已经找到最短路径
+        boolean[] find = new boolean[number];
+        // 最大流记录数组
+        int[] maxFlow = new int[number];
+        for (int i = 0; i < maxFlow.length; i++) {
+            maxFlow[i] = -1;
+        }
+        // 当前位置
+        int current = s;
+        maxFlow[s] = Integer.MAX_VALUE;
+        // 初始化起点
+        find[current] = true;
+        for (int i = 0; i < number; i++) {
+            int max = 0;
+            int maxIndex = current;
+            for (int j = 0; j < number; j++) {
+                if (find[j] == false) {
+                    // 遍历已经在集合里的点
+                    for (int k = 0; k < number; k++) {
+                        if (find[k] == true && Math.min(maxFlow[k], capacityMatrix[k][j]) > max) {
+                            max = Math.min(maxFlow[k],  capacityMatrix[k][j]);
+                            maxIndex = j;
+                            path[j] = k;
+                        }
+                    }
+                }
+            }
 
-        return 0;
+            find[maxIndex] = true;
+            maxFlow[maxIndex] = max;
+            PrintUtils.printArray(path);
+            System.out.println();
+        }
+
+        return maxFlow[t];
     }
 
     public int[][] getCapacityMatrix() {
@@ -268,9 +307,5 @@ public class FlowGraph {
         return number;
     }
 
-    /**
-     * @param pathBeanList 路线
-     * @param step         第几步
-     */
 
 }

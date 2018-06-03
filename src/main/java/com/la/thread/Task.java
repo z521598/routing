@@ -118,7 +118,10 @@ public class Task implements Callable<Map<String, Object>> {
                 pathBeanList = flowGraph.maxFlowByBfs(s, t);
             } else if ("dfs".equals(method)) {
                 pathBeanList = flowGraph.maxFlowByDfs(s, t);
+            } else if ("dij".equals(method)) {
+                pathBeanList = flowGraph.maxFlowByFlowFirst(s, t);
             }
+
             map.put(PATH_SIZE, pathBeanList.size());
             long end = System.currentTimeMillis();
             long runTime = end - start;
