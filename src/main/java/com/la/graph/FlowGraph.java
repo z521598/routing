@@ -115,7 +115,6 @@ public class FlowGraph {
             flow = new int[number];
             flow[s] = MAX;
             visited = new boolean[number];
-            System.out.println();
         }
 
         return pathBeanList;
@@ -188,7 +187,6 @@ public class FlowGraph {
             // capacity > 0     ===>  容量大于0，即为可达
             // visited[i] == false      ===>   该节点为被访问到 [这么写更清楚]
             if (i != s && capacity > 0 && visited[i] == false) {
-                System.out.print(i + " ");
                 // 记录前驱节点，即记录路径
                 path[i] = current;
                 // 各边容量的最小值即为此路径的最大流量
@@ -225,7 +223,6 @@ public class FlowGraph {
         flow[s] = MAX;
         // 记录节点是否访问过
         while ((incrementFlow = dijstraGetMaxFlow(s, t)) != -1) {
-            PrintUtils.printArray(path);
             maxFlow += incrementFlow;
             // 处理容量残余图
             int k = t;          // 利用前驱寻找路径
@@ -246,7 +243,6 @@ public class FlowGraph {
             flow = new int[number];
             flow[s] = MAX;
             visited = new boolean[number];
-            System.out.println();
         }
 
         return pathBeanList;
@@ -288,8 +284,6 @@ public class FlowGraph {
 
             find[maxIndex] = true;
             maxFlow[maxIndex] = max;
-            PrintUtils.printArray(path);
-            System.out.println();
         }
 
         return maxFlow[t];

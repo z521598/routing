@@ -17,6 +17,7 @@ public class PrintUtils {
             System.out.print(array[i] + " ");
         }
     }
+
     public static void printArray(boolean[] array) {
         if (array == null) {
             return;
@@ -128,4 +129,11 @@ public class PrintUtils {
     }
 
 
+    public static String toString(int[] ts) {
+        String tString = "";
+        for (int i = 0; i < ts.length; i++) {
+            tString += ts[i] + ",";
+        }
+        return tString;
+    }
 }

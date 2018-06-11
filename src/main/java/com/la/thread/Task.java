@@ -1,6 +1,7 @@
 package com.la.thread;
 
 import com.la.graph.FlowGraph;
+import com.la.other.NewUtils;
 import com.la.path.PathBean;
 import com.la.util.MainUtils;
 import com.la.util.PrintUtils;
@@ -136,24 +137,19 @@ public class Task implements Callable<Map<String, Object>> {
                     consoleTextArea.setText(res);
                 }
             });
-            int sumTime = 0;
             int step = sumFlow / currentFlow;
             int remain = sumFlow % currentFlow;
             double discuss = (double) sumFlow / (double) currentFlow;
             if (remain != 0) {
                 step += 1;
             }
-            if (sumFlow > currentFlow) {
-                for (int i = 0; i < pathBeanList.size(); i++) {
-                    PathBean pathBean = pathBeanList.get(i);
-                    int time = pathBean.getPath().size() - 1;
-                    sumTime += discuss * time;
-                }
-            }
+
+            double sumTime = NewUtils.getSumTime(sumFlow, currentFlow, pathBeanList);
+
             map.put(SUM_TIME, sumTime);
             if (step != 1) {
                 final int finalStep = step;
-                final int finalSumTime = sumTime;
+                final double finalSumTime = sumTime;
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {

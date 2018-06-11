@@ -99,10 +99,10 @@ public class RunListener implements ActionListener {
                 // 比较行驶时间
                 StringBuilder sumTimeCon = new StringBuilder();
                 String lessTimeMethod = null;
-                int lessTime = Integer.MAX_VALUE;
+                double lessTime = Integer.MAX_VALUE;
                 for (int i = 0; i < resMapList.size(); i++) {
                     Map<String, Object> map = resMapList.get(i);
-                    Integer sumTime = (Integer) map.get(Task.SUM_TIME);
+                    Double sumTime = (Double) map.get(Task.SUM_TIME);
                     String methodName = (String) map.get(Task.METHOD_NAME);
                     if (lessTime > sumTime) {
                         lessTime = sumTime;
@@ -110,7 +110,7 @@ public class RunListener implements ActionListener {
                     } else if (lessTime == sumTime) {
                         lessTimeMethod += ("," + methodName);
                     }
-                    sumTimeCon.append(lessTimeMethod).append("行驶时间总量为").append(sumTime).append("。");
+                    sumTimeCon.append(methodName).append("行驶时间总量为").append(sumTime).append("。");
                 }
                 sumTimeCon.append("\n").append(lessTimeMethod).append("行驶时间总量最少").append("，司机走的路最少");
 
