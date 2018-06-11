@@ -18,11 +18,6 @@ public class OtherMain {
     private static CountDownLatch count = new CountDownLatch(dataSize);
 
     public static void main(String[] args) throws InterruptedException {
-
-        for (int i = 0; i < dataSize; i++) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
                     int length = new Random().nextInt(lengthMaxRandomSeed - lengthMinRandomSeed) + lengthMinRandomSeed;
                     int randomCapacitySeed = length;
                     int tNumber = new Random().nextInt(tMaxNumber - tMinNumber) + tMinNumber;
@@ -39,38 +34,23 @@ public class OtherMain {
                     int[][] capacityMatrix = NewUtils.newRandomCapacityMatrix(length, randomCapacitySeed, ts);
                     int sumFlow = length * randomCapacitySeed;
                     int s = new Random().nextInt(sRandomSeed);
-//                    System.out.println("交通图的点数目:" + length);
-//                    System.out.println("道路的容量随机值：" + randomCapacitySeed);
-//                    System.out.println("拥堵点：" + s);
-//                    System.out.println("拥堵数量：" + sumFlow);
-//                    System.out.println("疏散点们:" + PrintUtils.toString(ts));
-//                    System.out.println("（超级）汇点:" + t);
-//                    System.out.println("交通容量图:");
-//                    PrintUtils.printArray(capacityMatrix);
+                    System.out.println("交通图的点数目:" + length);
+                    System.out.println("道路的容量随机值：" + randomCapacitySeed);
+                    System.out.println("拥堵点：" + s);
+                    System.out.println("拥堵数量：" + sumFlow);
+                    System.out.println("疏散点们:" + PrintUtils.toString(ts));
+                    System.out.println("（超级）汇点:" + t);
+                    System.out.println("交通容量图:");
+                    PrintUtils.printArray(capacityMatrix);
                     ConclusionTask conclusionTask = new ConclusionTask()
                             .setS(s)
                             .setT(t).setCapacityMatrix(capacityMatrix)
                             .setSumFlow(sumFlow);
 
-//                    Map<String, Map<String, Object>> conResMap = conclusionTask.call();
-//                    System.out.println();
-//                    System.out.println(conResMap);
-                    resesList.add(conclusionTask.call());
-                    count.countDown();
-                }
-            }).start();
+                    Map<String, Map<String, Object>> conResMap = conclusionTask.call();
+                    System.out.println();
+                    System.out.println(conResMap);
 
-            count.await();
-
-
-
-            for (Map<String, Map<String, Object>> resMap : resesList) {
-//                Set<Map.Entry<String,Object>> resSet =  resMap.entrySet();
-
-            }
-
-
-        }
 
     }
 }
